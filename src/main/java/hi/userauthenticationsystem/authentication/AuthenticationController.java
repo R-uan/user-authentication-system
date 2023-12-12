@@ -12,7 +12,7 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService service;
 
-    @GetMapping("/login")
+    @GetMapping("/authentication")
     public String LogIn(@RequestBody AuthenticationDTO credentials) { 
         return service.LogIn(credentials);
     }

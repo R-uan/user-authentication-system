@@ -25,14 +25,12 @@ public class JWTService {
     }
 
     public DecodedJWT VerifyToken(String token) {
-        JWTVerifier verifier = JWT
-                .require(this.signature)
-                .withIssuer(this.issuer)
-                .build();
-        return verifier.verify(token);
+        JWTVerifier verifier = JWT.require(this.signature).withIssuer(this.issuer).build();
+        DecodedJWT verification = verifier.verify(token);
+        return verification;
     }
 
     public Date GetExpiration() { 
-        return new Date(new Date().getTime() + 2 * 60 * 1000);
+        return new Date(new Date().getTime() + 30 * 60 * 1000);
     }
 }

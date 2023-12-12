@@ -27,4 +27,9 @@ public class EndUserController {
         if(createdUser != null) return ResponseEntity.ok(createdUser);
         else return ResponseEntity.internalServerError().build();
     }
+
+    @GetMapping("/what")
+    public String what() { 
+        return "what";
+    }
 }
