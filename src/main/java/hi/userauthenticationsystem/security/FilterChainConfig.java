@@ -22,7 +22,7 @@ public class FilterChainConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                             .requestMatchers("/authentication").permitAll()
-                            .anyRequest().authenticated()       
+                            .anyRequest().permitAll()     
                             )
                 .addFilterBefore(JWTSecurityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

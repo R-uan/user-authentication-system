@@ -14,6 +14,6 @@ public class AuthenticationController {
 
     @GetMapping("/authentication")
     public String LogIn(@RequestBody AuthenticationDTO credentials) { 
-        return service.LogIn(credentials);
+        return service.Login(credentials);
     }
 }

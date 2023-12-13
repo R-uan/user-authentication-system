@@ -5,6 +5,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import hi.userauthenticationsystem.entities.enduser.EndUser;
+import hi.userauthenticationsystem.entities.enduser.EndUserDTO;
+import hi.userauthenticationsystem.entities.enduser.EndUserRepository;
+import hi.userauthenticationsystem.entities.enduser.EndUserService;
 import hi.userauthenticationsystem.security.JWTService;
 
 @Service
@@ -15,11 +19,18 @@ public class AuthenticationService {
     @Autowired
     private JWTService JWT;
 
-    public String LogIn(AuthenticationDTO credentials) { 
+    @Autowired
+    private EndUserService endUserService;
+
+    public String Login(AuthenticationDTO credentials) { 
         UsernamePasswordAuthenticationToken authToken;
         authToken = new UsernamePasswordAuthenticationToken(credentials.username(), credentials.password());
         authenticationManager.authenticate(authToken);
         String JWToken = JWT.GenerateToken(credentials.username());
         return JWToken;
+    }
+
+    public void Signin(EndUserDTO registration) { 
+        endUserService.CreateNewUser(registration);
     }
 }
