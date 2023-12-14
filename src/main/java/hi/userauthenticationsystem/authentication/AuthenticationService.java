@@ -1,13 +1,12 @@
 package hi.userauthenticationsystem.authentication;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
-import hi.userauthenticationsystem.entities.enduser.EndUser;
 import hi.userauthenticationsystem.entities.enduser.EndUserDTO;
-import hi.userauthenticationsystem.entities.enduser.EndUserRepository;
 import hi.userauthenticationsystem.entities.enduser.EndUserService;
 import hi.userauthenticationsystem.security.JWTService;
 
@@ -21,13 +20,19 @@ public class AuthenticationService {
 
     @Autowired
     private EndUserService endUserService;
+    Logger Log = LogManager.getLogger("AuthenticationService");
 
     public String Login(AuthenticationDTO credentials) { 
-        UsernamePasswordAuthenticationToken authToken;
-        authToken = new UsernamePasswordAuthenticationToken(credentials.username(), credentials.password());
-        authenticationManager.authenticate(authToken);
-        String JWToken = JWT.GenerateToken(credentials.username());
-        return JWToken;
+        try {
+            UsernamePasswordAuthenticationToken authToken;
+            authToken = new UsernamePasswordAuthenticationToken(credentials.username(), credentials.password());
+            authenticationManager.authenticate(authToken);
+            String jwToken = JWT.GenerateToken(credentials.username());
+            return jwToken;
+        } catch (Exception e) {
+            Log.error("Failed Authentication: " + e.getMessage());
+            throw e;
+        }
     }
 
     public void Signin(EndUserDTO registration) { 

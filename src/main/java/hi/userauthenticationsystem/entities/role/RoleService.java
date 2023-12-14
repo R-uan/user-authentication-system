@@ -12,21 +12,27 @@ import org.springframework.stereotype.Service;
 public class RoleService {
     @Autowired
     private RoleRepository repository;
-    private Logger Log = LogManager.getFormatterLogger(RoleService.class);
+    private Logger Log = LogManager.getFormatterLogger("RoleService");
 
-    public List<Role> GetAllRoles() { 
-        return repository.findAll();
+    public Optional<List<Role>> GetAllRoles() { 
+        try {
+            List<Role> result = repository.findAll();
+            if(result.isEmpty()) return Optional.empty();
+            else return Optional.of(result);
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+            throw e;
+        }
     }
 
     public Optional<Role> CreateNewRole(RoleDTO role) {
         try {
             Role createdRole = new Role(role.name());
             Role savedRole = repository.save(createdRole);
-            Log.info("Created Role " + role.name());
             return Optional.of(savedRole);
         } catch (Exception e) {
             Log.error(e.getMessage());
-            return null;
+            throw e;
         }
     }
 }

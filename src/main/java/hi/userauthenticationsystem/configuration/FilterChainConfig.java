@@ -1,4 +1,4 @@
-package hi.userauthenticationsystem.security;
+package hi.userauthenticationsystem.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import hi.userauthenticationsystem.security.JWTSecurityFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +24,7 @@ public class FilterChainConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                             .requestMatchers("/authentication").permitAll()
-                            .anyRequest().permitAll()     
+                            .anyRequest().authenticated()
                             )
                 .addFilterBefore(JWTSecurityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

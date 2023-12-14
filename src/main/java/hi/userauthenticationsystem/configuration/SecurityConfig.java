@@ -1,4 +1,4 @@
-package hi.userauthenticationsystem.security;
+package hi.userauthenticationsystem.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

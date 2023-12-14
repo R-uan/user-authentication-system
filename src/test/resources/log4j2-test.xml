@@ -2,7 +2,7 @@
 <Configuration>
   <Appenders>
     <Console name="Console">
-      <PatternLayout pattern="%d{HH:mm:ss} · [%t] · %-5level · %logger{20} · %msg%n" />
+      <PatternLayout pattern="%d{HH:mm:ss} [%t] # %-5level # %logger{20}: %msg%n" />
     </Console>
   </Appenders>
   <Loggers>

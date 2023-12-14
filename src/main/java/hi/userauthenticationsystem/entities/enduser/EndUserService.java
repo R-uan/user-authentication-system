@@ -21,43 +21,54 @@ public class EndUserService {
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder BCrypt;
-    private Logger Log = LogManager.getLogger();
+    private Logger Log = LogManager.getLogger("EndUserService");
 
-    public List<EndUser> FindAllUsers() {
-        return userRepository.findAll();
+    public Optional<List<EndUser>> FindAllUsers() {
+        try {
+            List<EndUser> result = userRepository.findAll();
+            if(result.isEmpty()) return Optional.empty();
+            return Optional.of(result);
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+            throw e;
+        }
     }
     
     @Transactional
-    public EndUser CreateNewUser(EndUserDTO user) {
+    public Optional<EndUser> CreateNewUser(EndUserDTO user) {
         try {
             Role role = roleRepository.getReferenceByName("USER");
             String ecryptedPassword = BCrypt.encode(user.password());
             EndUser userToSave = new EndUser(user.email(), user.username(), ecryptedPassword, role);
             EndUser savedUser = userRepository.save(userToSave);
-            Log.info("Created User: " + user.username());
-            return savedUser;
+            if(savedUser != null) return Optional.of(savedUser);
+            else return Optional.empty();
         } catch (Exception e) {
             Log.error(e.getMessage());
-            return null;
+            throw e;
         }
     }
 
-    public EndUser FindByUsername(String username) {
-        Optional<EndUser> result = userRepository.findUserByUsername(username);
-        if(result.isPresent()) return result.get();
-        else return null;
+    public Optional<EndUser> FindByUsername(String username) {
+        try {
+            Optional<EndUser> result = userRepository.findUserByUsername(username);
+            return result;
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+            throw e;
+        }
     }
 
-    public Boolean DeleteUserByUsername(String username) { 
+    public Boolean DeleteAUserById(Long id) { 
         try {
-            Optional<EndUser> exists = userRepository.findUserByUsername(username);
+            Optional<EndUser> exists = userRepository.findById(id);
             if(exists.isEmpty()) return false;
-            userRepository.deleteUserByUsername(username);
-            Optional<EndUser> check = userRepository.findUserByUsername(username);
+            userRepository.deleteById(id);
+            Optional<EndUser> check = userRepository.findById(id);
             return check.isEmpty();
         } catch (Exception e) {
             Log.error(e.getMessage());
-            return null;
+            throw e;
         }
     }
 }
