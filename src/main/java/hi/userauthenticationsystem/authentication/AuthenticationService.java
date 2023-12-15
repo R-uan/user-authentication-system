@@ -49,7 +49,7 @@ public class AuthenticationService {
             if(admin.isPresent()) return admin.get();
             else return null;
         } catch (Exception e) {
-            Log.error("Failed Registration: " + e.getMessage());
+            Log.error("Failed to create default admin: " + e.getMessage());
             throw e;
         }
     }

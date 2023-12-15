@@ -24,13 +24,11 @@ public class AuthenticationController {
     @GetMapping("/login")
     public ResponseEntity<String> LogIn(@RequestBody AuthenticationDTO credentials) { 
         Log.info("Authentication Attempt. LogIn(): " + credentials.username());
-        
         try {
             String jwToken = service.Login(credentials);
             Log.info("Authentication Completed. user: " + credentials.username());
             return ResponseEntity.accepted().body(jwToken);
         } catch (Exception e) {
-            Log.error("Authentication Failed: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }

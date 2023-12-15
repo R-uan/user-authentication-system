@@ -23,11 +23,11 @@ public class EndUserService {
     private PasswordEncoder BCrypt;
     private Logger Log = LogManager.getLogger("EndUserService");
 
-    public Optional<List<EndUser>> FindAllUsers() {
+    public List<EndUser> FindAllUsers() {
         try {
             List<EndUser> result = userRepository.findAll();
-            if(result.isEmpty()) return Optional.empty();
-            return Optional.of(result);
+            if(result.isEmpty()) return null;
+            return result;
         } catch (Exception e) {
             Log.error(e.getMessage());
             throw e;
@@ -35,14 +35,14 @@ public class EndUserService {
     }
     
     @Transactional
-    public Optional<EndUser> CreateNewUser(EndUserDTO user) {
+    public EndUser CreateNewUser(EndUserDTO user) {
         try {
             Role role = roleRepository.getReferenceByName("USER");
             String ecryptedPassword = BCrypt.encode(user.password());
             EndUser userToSave = new EndUser(user.email(), user.username(), ecryptedPassword, role);
             EndUser savedUser = userRepository.save(userToSave);
-            if(savedUser != null) return Optional.of(savedUser);
-            else return Optional.empty();
+            if(savedUser != null) return savedUser;
+            else return null;
         } catch (Exception e) {
             Log.error(e.getMessage());
             throw e;
@@ -65,10 +65,11 @@ public class EndUserService {
         }
     }
 
-    public Optional<EndUser> FindByUsername(String username) {
+    public EndUser FindByUsername(String username) {
         try {
             Optional<EndUser> result = userRepository.findUserByUsername(username);
-            return result;
+            if(result.isEmpty()) return null;
+            else return result.get();
         } catch (Exception e) {
             Log.error(e.getMessage());
             throw e;
@@ -78,7 +79,7 @@ public class EndUserService {
     public Boolean DeleteAUserById(Long id) { 
         try {
             Optional<EndUser> exists = userRepository.findById(id);
-            if(exists.isEmpty()) return false;
+            if(exists.isEmpty()) return null;
             userRepository.deleteById(id);
             Optional<EndUser> check = userRepository.findById(id);
             return check.isEmpty();
