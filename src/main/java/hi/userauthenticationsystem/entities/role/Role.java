@@ -15,6 +15,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
+    @Column(unique = true)
     private String name;
 
     public Role(String name) { 

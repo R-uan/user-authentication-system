@@ -22,7 +22,9 @@ public class EndUser implements UserDetails {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String username;
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)

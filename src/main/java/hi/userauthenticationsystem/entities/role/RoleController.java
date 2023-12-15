@@ -5,10 +5,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public class RoleController {
     @PostMapping
     public ResponseEntity<Role> CreateNewRole(@RequestBody RoleDTO role) { 
         Log.info("POST Request. CreateNewRole().");
-
+        
         try {
             Optional<Role> result = service.CreateNewRole(role);
             if(result.isPresent()) {
@@ -56,6 +58,25 @@ public class RoleController {
             }
         } catch (Exception e) {
             Log.error("Failed to complete POST Request.");
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    
+    @DeleteMapping
+    public ResponseEntity<String> DeleteARoleById(@RequestParam("i") Integer id) {
+        Log.info("DELETE Request. DeleteARoleById().");
+        
+        try {
+            Boolean result = service.DeleteARoleById(id);
+            if(result == true){ 
+                Log.info("POST Request Completed. 200 OK");
+                return ResponseEntity.accepted().body("Role deleted");
+            } else {
+                Log.info("POST Request Completed. 404 NOT FOUND");
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            Log.error("Failed to complete DELETE Request.");
             return ResponseEntity.internalServerError().build();
         }
     }

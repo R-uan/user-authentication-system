@@ -48,6 +48,22 @@ public class EndUserService {
             throw e;
         }
     }
+    
+    @Transactional
+    public Optional<EndUser> CreateDefaultAdmin() {
+        try {
+            EndUserDTO admin = new EndUserDTO("admin@gmail.com", "admin", "admin");
+            Role role = roleRepository.getReferenceByName("ADMIN");
+            String ecryptedPassword = BCrypt.encode(admin.password());
+            EndUser userToSave = new EndUser(admin.email(), admin.username(), ecryptedPassword, role);
+            EndUser savedUser = userRepository.save(userToSave);
+            if(savedUser != null) return Optional.of(savedUser);
+            else return Optional.empty();
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+            throw e;
+        }
+    }
 
     public Optional<EndUser> FindByUsername(String username) {
         try {

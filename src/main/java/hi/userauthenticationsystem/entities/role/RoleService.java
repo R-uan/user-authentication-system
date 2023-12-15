@@ -35,4 +35,16 @@ public class RoleService {
             throw e;
         }
     }
+
+    public Boolean DeleteARoleById(Integer id) {
+        try {
+            Optional<Role> exists = repository.findById(id);
+            if(exists.isEmpty()) return false; 
+            repository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            Log.error(e.getMessage());
+            throw e;
+        }
+    }
 }

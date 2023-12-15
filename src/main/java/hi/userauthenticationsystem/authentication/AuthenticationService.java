@@ -1,11 +1,15 @@
 package hi.userauthenticationsystem.authentication;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+
+import hi.userauthenticationsystem.entities.enduser.EndUser;
 import hi.userauthenticationsystem.entities.enduser.EndUserDTO;
 import hi.userauthenticationsystem.entities.enduser.EndUserService;
 import hi.userauthenticationsystem.security.JWTService;
@@ -37,5 +41,16 @@ public class AuthenticationService {
 
     public void Signin(EndUserDTO registration) { 
         endUserService.CreateNewUser(registration);
+    }
+
+    public EndUser CreateDefaultAdmin() {
+        try {
+            Optional<EndUser> admin = endUserService.CreateDefaultAdmin();
+            if(admin.isPresent()) return admin.get();
+            else return null;
+        } catch (Exception e) {
+            Log.error("Failed Registration: " + e.getMessage());
+            throw e;
+        }
     }
 }
