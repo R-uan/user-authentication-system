@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
@@ -16,12 +17,13 @@ import java.util.Optional;
 
 @Controller
 @RestController
+@RequestMapping("/users")
 public class EndUserController {
     @Autowired
     private EndUserService service;
     private Logger Log = LogManager.getFormatterLogger("EndUserController");
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<EndUser>> GetAllUsers() {
         Log.info("GET Request. GetAllUsers()");
 
@@ -35,7 +37,7 @@ public class EndUserController {
         }
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<EndUser> CreateNewUser(@RequestBody EndUserDTO user) {
         Log.info("POST Request called. CreateNewUser()");
 
@@ -54,9 +56,9 @@ public class EndUserController {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-    @GetMapping("/users/search")
-    public ResponseEntity<EndUser> GetOneByUsername(@RequestParam("username") String username) { 
+ 
+    @GetMapping("/search")
+    public ResponseEntity<EndUser> GetOneByUsername(@RequestParam("u") String username) { 
         Log.info("GET Request Started. GetOneByUsername()");
 
         try {
@@ -73,7 +75,7 @@ public class EndUserController {
         }
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping
     public ResponseEntity<String> DeleteAUserById(@RequestParam("id") Long id) {
         Log.info("DELETE Request called. DeleteAUserById()"); 
         

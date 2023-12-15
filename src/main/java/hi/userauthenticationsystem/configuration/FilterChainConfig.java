@@ -23,8 +23,8 @@ public class FilterChainConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                            .requestMatchers("/authentication").permitAll()
-                            .anyRequest().authenticated()
+                            .requestMatchers("/authentication/**").permitAll()
+                            .requestMatchers("/users/**", "/roles/**").hasAuthority("ADMIN")
                             )
                 .addFilterBefore(JWTSecurityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

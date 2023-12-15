@@ -8,19 +8,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/roles")
 @RestController
 public class RoleController {
     @Autowired
     private RoleService service;
     private Logger Log = LogManager.getFormatterLogger("RoleController");
 
-    @GetMapping("/roles")
+    @GetMapping
     public ResponseEntity<List<Role>> ReadAllRoles() {
         Log.info("GET Request. ReadAllRoles().");
         
@@ -39,7 +41,7 @@ public class RoleController {
         }
     }
 
-    @PostMapping("/roles")
+    @PostMapping
     public ResponseEntity<Role> CreateNewRole(@RequestBody RoleDTO role) { 
         Log.info("POST Request. CreateNewRole().");
 
