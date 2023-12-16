@@ -4,15 +4,17 @@
 
 Route for the login and registration operations. Free access for all.
 
-- [x]  GET (”/login”) — Given the credentials, return a JWT if successfully authenticated.
+### GET (”/login”)
 
-Possible Results:
+Given the credentials, return a JWT if successfully authenticated.
+
+Possible responses:
 
 - 202 Accepted — Returns the JWT.
 - 403 Forbidden — Failed Authentication, wrong username or password.
 - 500 Internal Server Error
 
-### Expected Body
+ Expected Body:
 
 ```json
 {
@@ -23,16 +25,22 @@ Possible Results:
 
 ---
 
-- [x]  GET ("/486217935") — Creates a default admin. username: admin, password: admin.
+### GET ("/486217935")
 
-Possible Results:
+Creates a default admin. username: admin, password: admin.
+
+Possible responses:
 
 - 200 Ok — Returns the info of the admin created.
 - 500 Internal Server Error
 
 ## End User (”/users”)
 
-- [x]  GET (”/users”) — Retrieves all users in the database.
+CRUD Operations for the EndUser table.
+
+### GET (”/users”)
+
+Retrieves all users in the database.
 
 Possible Results:
 
@@ -42,7 +50,9 @@ Possible Results:
 
 ---
 
-- [x]  POST (”/users”) — Creates a new user in the database.
+### POST (”/users”)
+
+Creates a new user in the database.
 
 Possible responses:
 
@@ -50,7 +60,7 @@ Possible responses:
 - 400 Bad Request
 - 500 Internal Server Error
 
-### Expected Body
+Expected Body:
 
 ```json
 {
@@ -62,7 +72,9 @@ Possible responses:
 
 ---
 
-- [x]  GET (”/users/search?u=username”) — Find a user by it’s username
+### GET (”/users/search?u=username”)
+
+Find a user by given username
 
 Possible responses:
 
@@ -77,7 +89,9 @@ Possible responses:
 
 ---
 
-- [x]  DELETE (”/users?id=id”) — Finds a user by id and deletes it
+### DELETE (”/users?id=id”)
+
+Finds a user by id and deletes it
 
 Possible responses:
 
@@ -93,7 +107,11 @@ Possible responses:
 
 ## Roles (”/roles”)
 
-- [x]  GET (”/roles”) — Get all roles saved in the database.
+CRD Operations for the roles table.
+
+### GET (”/roles”)
+
+Get all roles saved in the database.
 
 Possible responses:
 
@@ -103,7 +121,9 @@ Possible responses:
 
 ---
 
-- [x]  POST (”/roles”) — Saves a role in the database.
+### POST (”/roles”)
+
+Saves a role in the database.
 
 Possible responses:
 
@@ -111,7 +131,7 @@ Possible responses:
 - 400 Bad Request
 - 500 Internal Server Error
 
-### Expected Body
+Expected Body:
 
 ```json
 {
@@ -121,13 +141,15 @@ Possible responses:
 
 ---
 
-- [x]  DELETE (”/roles?id=id”) — Deletes a role in the database.
+### DELETE (”/roles?id=id”)
+
+Deletes a role in the database.
 
 Possible responses:
 
 - 200 Ok — Role found and deleted
 - 404 Not Found — Role ID not found
-- 418 I'm a teapot — If the role is found but not deleted for some reason
+- 418 ****I'm a teapot — If the role is found but not deleted for some reason
 - 500 Internal Server Error
 
 ### Key Parameters:
